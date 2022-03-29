@@ -50,14 +50,16 @@ def read_data()->str:
 
     try:
         with open('positional.xml', 'r') as f:
-            iss_positional_data = xmltodict.parse(f.read())
+            f_data = f.read()
+            iss_positional_data = xmltodict.parse(f_data)
 
 
         with open('sighting.xml', 'r') as f2:
-            iss_sighting_data = xmltodict.parse(f2.read())
+            f2_data = f2.read()
+            iss_sighting_data = xmltodict.parse(f2_data)
 
         return f'Data has been read from file\n'
-        return iss_positional_data
+     
     except FileNotFoundError as no_file:
         logging.error(no_file)
         return 'File does not exist'
@@ -128,11 +130,16 @@ def get_country_info(country):
     Reutrns:
         A list of dictionaries with information on the specified country.
     """
-    global country_list
+    country_dict = {}
     country_list = []
-    for i in range(len(countries)):
-        country_list.append(iss_sighting_data[i])
-    
+    country_data = ['country', 'region', 'city', 'spacecraft','sighting_date','duration_minutes','max_elevation','enters','exits','utc_offset','utc_time', 'utc_date']
+    for item in iss_sighting_data['visible_passes']['visible_pass']:
+        country_name = item['country']
+        if country == country_name:
+            country_place = item
+            for data in country_data:
+                country_dict[data] = country_place[data]
+            country_list.append(country_dict)
     return jsonify(country_list)
 
 @app.route('/countries/<country>/regions', methods=['GET'])
@@ -175,38 +182,58 @@ def specificc_region(country: str, region: str):
     specific_region = []
     logging.debug('Have a specific region queried')
 
-    for i in range(len(regions)):
+    
+    region_dictionary = {}
+    region_list = []
+    region_data = ['city', 'spacecraft', 'sighting_date','duration_minutes','max_elevation','enters', 'exits','utc_offset','utc_time', 'utc_date']    
 
-        try:
-            if region in regions[i]:
-                specific_region.append(country_list[i])
+    try:
+        for item in iss_sighting_data['visible_passes']['visible_pass']:
+            if country == item['country']:
+                specific_region = item['region']
+                if region == specific_region:
+                    for data in region_data:
+                        region_dictionary[data] = item[data]
+                    region_list.append(region_dictionary) 
+        return jsonify(specific_region)
+           
 
-        except NameError as e:
-            logging.error(e)
-            return 'This specific region was not found\n'
+    except NameError as e:
+        logging.error(e)
+        return 'This specific region was not found\n'
 
-    return jsonify(specific_region)
+    
 
 @app.route('/countries/<country>/regions/<region>/cities', methods=['GET'])
 def cities(country: str, region: str):
-     """
-     This route gathers all cities within the given region.
+    """
+      This route gathers all cities within the given region.
      
-     Args:
+      Args:
           The specified country queried from a previous route (str value).
           The specified region queried from the previous route (str value).
-     Returns:
+      Returns:
              A list of the cities.
-     """
-     data = (country, region)
-     global citiesList
-
-     cities_list = []
-     for i in range(len(specific_region)):
-         current_dict = specific_region[i]
-         cities_list.append(current_dict['city'])
+    """
     
-     return jsonify(cities_list)
+    cities_dict = {}
+
+    try:
+        for item in iss_sighting_data['visible_passes']['visible_pass']:
+            if country == item['country']: 
+                selected_region = item['region']
+                if region == selected_region:
+                    selected_cities = item['city']
+                    if selected_cities in cities_dict:
+                        cities_dict[selected_cities] += 1   
+                    else:
+                        cities_dict[selected_cities] = 1
+    
+        return jsonify(cities_dict)
+    except NameError as e:
+        logging.error(e)
+        return 'This specific city was not found\n'
+
 @app.route('/countries/<country>/regions/<region>/cities/<city>', methods=['GET'])
 def specificCity(country: str, region: str, city: str):
     """
@@ -219,22 +246,28 @@ def specificCity(country: str, region: str, city: str):
       Returns:
         A list of dictionaries with information on the specified region.
      """
-    data = cities(country, region)
-    
-    specific_city = []
+
     logging.debug('Have a specific city queried')
 
-    for i in range(len(citiesList)):
+    city_dict = {} 
+    city_list = []
+    city_data = ['city','spacecraft','sighting_date','duration_minutes','max_elevation','enters','exits','utc_offset','utc_time','utc_date']
 
-        try:
-            if city in citiesList[i]:
-                specific_city.append(specific_region[i])
+    try:
+         for item in iss_sighting_data['visible_passes']['visible_pass']:
+            if country == item['country']:
+                specific_region = item['region']
+                if region == specific_region:
+                    specific_city = item['city']
+                    if city == specific_city:
+                        for data in city_data:
+                            city_dict[data] = item[data]
+                        city_list.append(city_dict)
 
-        except NameError as e:
-            logging.error(e)
-            return 'Requested city was not found\n'
-
-    return jsonify(specific_city)
+         return jsonify(specific_city)
+    except NameError as e:
+        logging.error(e)
+        return 'This selected city was not found\n'
 
 
 if __name__ == '__main__':
