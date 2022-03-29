@@ -77,7 +77,7 @@ export FLASK_ENV=development
 flask run -p 5018
 ```
   
-2. Open an additional terminal, do the log in process once more, and type the command: `curl localhost:5014/`
+2. Open an additional terminal, do the log in process once more, and type the command: `curl localhost:5018/`
 
   The sample output should be:
   
