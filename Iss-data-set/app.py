@@ -20,7 +20,7 @@ def instructions()->str:
     /                                                       (GET) prints info on each route available
     /data                                                   (POST) resets and loads data from files
     Routes for querying positional data:
-    /get_epochs                                             (GET) a list of all epochs in the data
+    /epochs                                                 (GET) a list of all epochs in the data
     /epochs/<epoch>                                         (GET) all data of a specific <epoch>
     Routes for querying sighting data:
     
@@ -35,8 +35,7 @@ def instructions()->str:
 
 @app.route('/data', methods=['GET'])
 def read_data()->str:
-'''
-This function will collect the data from the xml files and parse them to a global variable 
+    '''This function will collect the data from the xml files and parse them to a global variable 
 
  Args:  
         iss_postional_data (string):global variable for the file positional.xml
@@ -45,7 +44,7 @@ This function will collect the data from the xml files and parse them to a globa
          If the program sucessfully reads and parses the data to the variables, it will return a string indicating the success, else, it will return a
          string indicating that the file does not exist.
 '''
- 
+
     global iss_positional_data
     global iss_sighting_data
 
@@ -64,7 +63,7 @@ This function will collect the data from the xml files and parse them to a globa
 
 @app.route('/epochs', methods=['GET'])
 def get_epochs():
-  '''
+    '''
     This function will display all of the epoch information for the user to see
     Returns:
         epochs (list) it will be list that contains all the epoch starting time. But to prevent
@@ -72,33 +71,38 @@ def get_epochs():
    '''
     logging.info('loading to get all epochs')
     
+    global epochs
     epochs = []
   
     for item in iss_positional_data['ndm']['oem']['body']['segment']['data']['stateVector']:
         epochs.append(item['EPOCH'])
     return jsonify(epochs)
 
-@app.route('/get_epochs/<epoch_info>', methods=['GET'])
-def get_detailed_epoch(epochs: str):
+@app.route('/epochs/<epoch_info>', methods=['GET'])
+def get_detailed_epoch(epoch: str):
   '''
   This function will read specific epoch data from the file and add them to epoch_list (list) and return the list after transforming it into a json file.
- Args:
-        A detailed epoch (str value).
- Returns:
-        A list of dictionaries with the imformation of the detailed specific epoch.
- '''
-
-    
-    global epoch_list
-    epoch_list =[]
-    for i in range(len(epochs)):
-        epoch_list.append(iss_positional_data[i])
-    
-    return jsonify(epoch_list)
+  
+  Args:
+        A specified epoch (str value).
+    Returns:
+        A list of dictionaries with the imformation of the requested epoch.
+  '''
+  epoch_list = []
+  logging.debug('Have a specific epoch queried')
+  
+  for i in range(len(epochs)):
+       try:
+           if epoch in epochs[i]:
+               epoch_list.append(iss_positional_data[i])
+       except NameError as e:
+            logging.error(e)
+            return 'Requested epoch was not found\n'
+  return jsonify(epoch_list)
 
 @app.route('/countries', methods=['GET'])
 def get_countries():
-   """
+    """
     This route gathers all countries from the sighting data.
     
     Returns:
@@ -131,14 +135,14 @@ def get_country_info(country):
 
 @app.route('/countries/<country>/regions', methods=['GET'])
 def regions(country):
-   """
-    This route gathers all regions within the given country.
+     """
+     This route gathers all regions within the given country.
     
-    Args:
-        The specified country queried from the previous route. (str value)
-    Returns:
+     Args:
+         The specified country queried from the previous route. (str value)
+     Returns:
         A list of the regions.
-    """
+     """
      logging.info("Querying route to get list of regions in /" + country)
 
      regions = {}
@@ -154,7 +158,7 @@ def regions(country):
 
 @app.route('/countries/<country>/regions/<region>', methods=['GET'])
 def specificc_region(country: str, region: str):
-   """
+    """
     This route reads in a user input and finds the information on the specific region requested.
     Args:
         The specified country queried from a previous route (str value).
@@ -183,8 +187,17 @@ def specificc_region(country: str, region: str):
 
 @app.route('/countries/<country>/regions/<region>/cities', methods=['GET'])
 def cities(country: str, region: str):
+     """
+     This route gathers all cities within the given region.
+     
+     Args:
+          The specified country queried from a previous route (str value).
+          The specified region queried from the previous route (str value).
+     Returns:
+             A list of the cities.
+     """
      data = (country, region)
-     global cities_list
+     global citiesList
 
      cities_list = []
      for i in range(len(specific_region)):
@@ -194,6 +207,16 @@ def cities(country: str, region: str):
      return jsonify(cities_list)
 @app.route('/countries/<country>/regions/<region>/cities/<city>', methods=['GET'])
 def specificCity(country: str, region: str, city: str):
+    """
+      This route reads in a user input and finds the information on the specific city requested.
+      Args:
+        The specified country queried from a previous route (str value).
+        The specified region queried from a previous route (str value).
+        A specified city (str value).
+    
+      Returns:
+        A list of dictionaries with information on the specified region.
+     """
     data = cities(country, region)
     
     specific_city = []
