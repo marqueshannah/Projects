@@ -11,7 +11,7 @@ iss_positional_data = {}
 iss_sighting_data = {}
 
 
-@app.route('/', methods=['GET'])
+@app.route('/', methods=['GET', 'POST'])
 def instructions()->str:
     instruction_message = """
     Tracking the ISS 
@@ -21,7 +21,7 @@ def instructions()->str:
     /data                                                   (POST) resets and loads data from files
     Routes for querying positional data:
     /epochs                                                 (GET) a list of all epochs in the data
-    /epochs/<epoch>                                         (GET) all data of a specific <epoch>
+    /epochs/<epoch_info>                                         (GET) all data of a specific <epoch>
     Routes for querying sighting data:
     
     /countries                                              (GET) a list of all countries in the data
@@ -37,26 +37,27 @@ def instructions()->str:
 def read_data()->str:
     '''This function will collect the data from the xml files and parse them to a global variable 
 
- Args:  
-        iss_postional_data (string):global variable for the file positional.xml
-        iss_sighting_data(string): global variable for the file sighting.xml
- Returns:
-         If the program sucessfully reads and parses the data to the variables, it will return a string indicating the success, else, it will return a
-         string indicating that the file does not exist.
-'''
-
+        Args:  
+            iss_postional_data (string):global variable for the file positional.xml
+            iss_sighting_data(string): global variable for the file sighting.xml
+        Returns:
+             If the program sucessfully reads and parses the data to the variables, it will return a string indicating the success, else, it will return a
+                string indicating that the file does not exist.
+    '''
+    
     global iss_positional_data
     global iss_sighting_data
 
     try:
         with open('positional.xml', 'r') as f:
             iss_positional_data = xmltodict.parse(f.read())
-        iss_positional_data = iss_positional_data['ndm']['oem']['body']['segment']['data']['stateVector']
 
-        with open('sighting.xml', 'r') as f:
-            iss_sighting_data = xmltodict.parse(f.read())
+
+        with open('sighting.xml', 'r') as f2:
+            iss_sighting_data = xmltodict.parse(f2.read())
 
         return f'Data has been read from file\n'
+        return iss_positional_data
     except FileNotFoundError as no_file:
         logging.error(no_file)
         return 'File does not exist'
@@ -64,41 +65,42 @@ def read_data()->str:
 @app.route('/epochs', methods=['GET'])
 def get_epochs():
     '''
-    This function will display all of the epoch information for the user to see
-    Returns:
+     This function will display all of the epoch information for the user to see
+     Returns:
         epochs (list) it will be list that contains all the epoch starting time. But to prevent
         errors from happening we are to use jsonify to turn the list into JSON data.
-   '''
+    '''
     logging.info('loading to get all epochs')
     
-    global epochs
     epochs = []
+    iss_positional = iss_positional_data['ndm']['oem']['body']['segment']['data']['stateVector']
   
-    for item in iss_positional_data['ndm']['oem']['body']['segment']['data']['stateVector']:
+    for item in iss_positional:
         epochs.append(item['EPOCH'])
-    return jsonify(epochs)
+    return json.dumps(epochs, indent=2)
 
-@app.route('/epochs/<epoch_info>', methods=['GET'])
+@app.route('/epochs/<epoch>', methods=['GET'])
 def get_detailed_epoch(epoch: str):
-  '''
-  This function will read specific epoch data from the file and add them to epoch_list (list) and return the list after transforming it into a json file.
+    '''
+    This function will read specific epoch data from the file and add them to epoch_list (list) and return the list after transforming it into a json file.
   
-  Args:
+    Args:
         A specified epoch (str value).
-    Returns:
+     Returns:
         A list of dictionaries with the imformation of the requested epoch.
-  '''
-  epoch_list = []
-  logging.debug('Have a specific epoch queried')
+    '''
+    logging.debug('Have a specific epoch queried')
+    epoch_list = {}
+    all_data = ['X', 'Y', 'Z', 'X_DOT', 'Y_DOT', 'Z_DOT']
+    for item in iss_positional_data['ndm']['oem']['body']['segment']['data']['stateVector']:
+        if epoch == item['EPOCH']:
+            epoch_location= item
+            for i in all_data:
+                epoch_list[i] = epoch_location
+    return jsonify(epoch_list)
+
+    
   
-  for i in range(len(epochs)):
-       try:
-           if epoch in epochs[i]:
-               epoch_list.append(iss_positional_data[i])
-       except NameError as e:
-            logging.error(e)
-            return 'Requested epoch was not found\n'
-  return jsonify(epoch_list)
 
 @app.route('/countries', methods=['GET'])
 def get_countries():
