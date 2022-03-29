@@ -13,4 +13,4 @@ run:
         docker run -d -p 5018:5000 hannahmarques/midterm2:1.0
 
 push:
-        docker push hannahmarques/midterm2:midterm
+        docker push hannahmarques/midterm2:1.0
