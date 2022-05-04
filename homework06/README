@@ -1,8 +1,8 @@
 # Meteorite Landings through Flask, Redis and Kubernetes Cluster
 
 ## This has the purpose of allowing the user to post and retrieve data from the meteorite landings file that is stored in a Redis database and orchestrated by a Kubernetes cluster.
-First, log in to the ISP machine.
-Second, log in to Kubernetes ''' <username>@coe332-k8s.tacc.cloud '''
+1. First, log in to the ISP machine.
+2. Second, log in to Kubernetes ''' <username>@coe332-k8s.tacc.cloud '''
 Link for the Json file to download manually:
 https://raw.githubusercontent.com/wjallen/coe332-sample-data/main/ML_Data_Sample.json 
 
