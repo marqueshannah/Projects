@@ -1,0 +1,31 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hannahm-test-redis-deployment
+  labels:
+    app: hannahm-test-redis-deployment
+    username: hannahm
+    env: test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hannahm-test-redis
+  template:
+    metadata:
+      labels:
+        app: hannahm-test-redis
+        username: hannahm
+        env: test
+    spec:
+      containers:
+        - name: hannahm-test-redis
+          image: redis:6
+          volumeMounts:
+          - name: hannahm-test-redis-pvc-data
+            mountPath: "/data"
+      volumes:
+      - name: hannahm-test-redis-pvc-data
+        persistentVolumeClaim:
+          claimName: hannahm-test-redis-pvc-data
