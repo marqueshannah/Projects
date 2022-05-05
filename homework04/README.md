@@ -26,7 +26,7 @@ cd /code
 ml_data_analysis.py Meteorite_Landings.json
 
 ```
-##Output sample:
+## Output sample:
 
 ```
 Summary data following meteorite analysis:
