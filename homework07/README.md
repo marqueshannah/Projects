@@ -15,7 +15,7 @@ In this flowchart, oval shapes indicate start/end; Squares indicates a process o
 2. Once gotten an input, the application will output or perform different functionalities. 
 Some selections can lead to several other possible selections to obtain data from. For instance, within "/countries" you can obtain a list of countries and select an specific one to get data. 
 
-Within countries you can obtain all these information:
+Within this application you can obtain all these data:
 ~~~
 /                                                      (GET) print this information
 /data                                                  (POST) reset data, load from file
