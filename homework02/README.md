@@ -1,4 +1,4 @@
-# This folder contains the python script files for COE 332 homework 2 "the return of JSON."
+The return of JSON
 The python script "generate_sites.py" creates a dictionary which contains data points of the meteorites' landing sites. It generates 5 different datas of 5 different meteorites and outputs it in the JSON file called "hw2landingsites.json." 
 
 The python script "calculate_trip.py" transforms the Json file into a dictionary in order to read and use the information stored in the file. Next, the program uses a pre established constant to calculate the time travel from the initial site to the meteorite site, total travel time, the amount of time to collect the samples, number of legs, and total time elapsed from all samples. 
