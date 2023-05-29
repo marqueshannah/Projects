@@ -1,7 +1,7 @@
 # DATABASES: working with Redis and Flask
 
 ## Description :
-This assignment allows the developer to work with the Flask application, while utilizing a database that allows it to be accessed from different computers. 
+This project allows the developer to work with the Flask application, while utilizing a database that allows it to be accessed from different computers. 
 This program runs and retrieves data from the database.
 
 ## How to Launch the Redis:
