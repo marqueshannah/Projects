@@ -1,7 +1,6 @@
 # Mars Lab Water Safety
 ## Overview
-This program determines the safety of the water based on data colected from a dictionary from five samples within it. Then, it calculates the water turbidity, 
-to determine if it is safe to use for analyzing meteorite samples. Next, it calculates the other calculating the minimum time required time to reach below the safety threshold.
+This program determines the safety of the water based on data colected from a dictionary from five samples within it. Then, it calculates the water turbidity,  to determine if it is safe to use. Next, it calculates the the minimum time required time to reach below the safety threshold.
 
 
 ## How To Download The Data Set:
