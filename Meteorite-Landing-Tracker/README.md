@@ -1,4 +1,4 @@
-# Once Upon a Time in Containers: Meteorite Landing Analysis
+# Containers: Meteorite Landing Tracker and Analysis 
 This repository contains the files to analyze the Meteorite information inside a JSON file, then, output some calculations of average mass, and summary datas. 
 
 ## ml_data_analysis.py
