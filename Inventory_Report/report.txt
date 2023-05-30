@@ -1,0 +1,23 @@
+								John Smith for the Ragnarok Company, Inc.
+							Prepared On : Monday, May 29, 2023 20:43:33
+
+							 I N V E N T O R Y   R E P O R T
+
+Item Inventory
+Number                    Description                            Quantity          Unit Price                    Value
+90000      4 inch by 1/2 inch Spring                                  55                6.25                    343.75
+20001      6 inch by 1/2 inch Spring                                  15                8.95                    134.25
+20000                  Torque Wrench                                  37                29.5                   1,091.5
+28967                     Hex Wrench                                  70               19.98                   1,398.6
+90909                Wide Paintbrush                                 107               17.45                  1,867.15
+56789           Phillips Screwdriver                                 120               10.95                     1,314
+66908                  14 inch Level                                  23               16.89                    388.47
+24680                    Claw Hammer                                  55               15.98                     878.9
+29037              1 inch Paintbrush                                  73                2.95                    215.35
+89999                       Fly Trap                                  10                5.95                      59.5
+12345                Ballpeen Hammer                                  55               18.75                  1,031.25
+44021                  3 inch Trowel                                  38               10.74                    408.12
+30127                 1/4 inch Drill                                  16               34.89                    558.24
+32678                  Chlorox Wipes                                  35                7.95                    278.25
+13579                     Box Wrench                                  48               20.35                     976.8
+                                                                                                       Total: 10,944.13

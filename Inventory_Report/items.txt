@@ -1,0 +1,15 @@
+12345,Ballpeen Hammer,25,18.75
+56789,Phillips Screwdriver,120,10.95
+32678,Chlorox Wipes,35,7.95
+89999,Fly Trap,35,5.95
+24680,Claw Hammer,35,15.98
+13579,Box Wrench,48,20.35
+20000,Torque Wrench,27,29.50
+66908,14 inch Level,23,16.89
+28967,Hex Wrench,70,19.98
+90909,Wide Paintbrush,107,17.45
+30127,1/4 inch Drill,16,34.89
+20001,6 inch by 1/2 inch Spring,20,8.95
+90000,4 inch by 1/2 inch Spring,30,6.25
+44021,3 inch Trowel,38,10.74
+29037,1 inch Paintbrush,73,2.95
