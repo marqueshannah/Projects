@@ -1,29 +1,42 @@
-# Containers: Meteorite Landing Tracker and Analysis 
-This repository contains the files to analyze the Meteorite information inside a JSON file, then, output some calculations of average mass, and summary datas. 
+# Meteorite Landing Tracker and Analysis
+
+This repository contains the necessary files to run an application for analyzing meteorite information from a JSON dataset. The application calculates the average mass of meteorites and provides summary data.
 
 ## ml_data_analysis.py
-This python script acquires data from the "Meteorite_Landings.json" file. 
-### "compute_average_mass(a_list_of_dicts: List[dict], a_key_string: str)"
-This function will calculate and retrun the average mass based on the mass of all meteorites in the file. The function will output a logging message if the number of dictionaries is 0.
 
-### "check_hemisphere(latitude: float, longitude: float)"
-This function will determine which hemisfere the meteorite landed in based on its latitude and longitude.
-### "def count_class(a_list_of_dicts: List[dict], a_key_string: str)" 
-This function counts how many times each class was found in the dictionaries. 
+The `ml_data_analysis.py` script is responsible for acquiring data from the "Meteorite_Landings.json" file and performing various calculations and analysis. It includes the following functions:
 
-## test_ml_data_analysis.py 
-This script does some unit testing in the file "ml_data_analysis." To properly run this test, installation of pytest is needed. 
+### `compute_average_mass(a_list_of_dicts: List[dict], a_key_string: str)`
+
+This function calculates and returns the average mass of all meteorites in the dataset. If the number of dictionaries is 0, a logging message will be displayed.
+
+### `check_hemisphere(latitude: float, longitude: float)`
+
+This function determines the hemisphere in which a meteorite landed based on its latitude and longitude.
+
+### `count_class(a_list_of_dicts: List[dict], a_key_string: str)`
+
+This function counts the occurrences of each class in the dataset dictionaries.
+
+## test_ml_data_analysis.py
+
+The `test_ml_data_analysis.py` script contains unit tests for the `ml_data_analysis.py` file. To run these tests, you need to have `pytest` installed.
 
 ## Dockerfile
-This file contains the information needed to create a container that successfully runs this code.
 
-## How To Run This Code:
-open your terminal, do the necessary log in procedures, and type the following commands to pull the existing image.
-``` 
+The Dockerfile in this repository provides instructions to create a container that can successfully run this code.
+
+## How to Run This Code
+
+To run the application, follow these steps:
+
+1. Open your terminal and perform the necessary login procedures.
+2. Pull the existing Docker image using the following commands:
+
+```bash
 docker pull hannahmarques/ml_data_analysis:hw04
 docker run --rm -it hannahmarques/ml_data_analysis:1.0 /bin/bash
-cd /code
-ml_data_analysis.py Meteorite_Landings.json
+
 
 ```
 ## Output sample:
