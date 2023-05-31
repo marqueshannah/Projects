@@ -10,6 +10,7 @@ This program simulates a delivery route optimization for an Amazon truck driver.
 ### The Address class represents a single address. It has the following attributes:
 
 x: x-coordinate of the address
+
 y: y-coordinate of the address
 
 last_day_of_delivery: last possible date for delivery
